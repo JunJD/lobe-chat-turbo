@@ -88,6 +88,7 @@
     "dayjs": "^1",
     "dexie": "^3",
     "fast-deep-equal": "^3",
+    "framer-motion": "^10.16.16",
     "gpt-tokenizer": "^2",
     "i18next": "^23",
     "i18next-browser-languagedetector": "^7",
