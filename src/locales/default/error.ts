@@ -32,7 +32,7 @@ export default {
     PluginGatewayError: '很抱歉，插件网关出现错误，请检查插件网关配置是否正确',
     PluginOpenApiInitError: '很抱歉，OpenAPI 客户端初始化失败，请检查 OpenAPI 的配置信息是否正确',
 
-    InvalidAccessCode: '密码不正确或为空，请输入正确的访问密码，或者添加自定义 OpenAI API Key',
+    InvalidAccessCode: '请登录你的账号，或者添加自定义 OpenAI API Key / 管理员密码',
     OpenAIBizError: '请求 OpenAI 服务出错，请根据以下信息排查或重试',
     NoAPIKey: 'OpenAI API Key 为空，请添加自定义 OpenAI API Key',
     /* eslint-enable */
@@ -48,6 +48,11 @@ export default {
       addProxyUrl: '添加 OpenAI 代理地址（可选）',
       description: '输入你的 OpenAI API Key 即可开始会话。应用不会记录你的 API Key',
       title: '使用自定义 API Key',
+    },
+    auth: {
+      description: '登录你的 账户 即可开始会话。应用不会记录你的 信息',
+      login: '使用账号密码登陆/注册',
+      title: '登陆你自己的账号',
     },
     closeMessage: '关闭提示',
     confirm: '确认并重试',

@@ -1,6 +1,6 @@
 import { Icon, RenderErrorMessage } from '@lobehub/ui';
 import { Button, Input, Segmented } from 'antd';
-import { KeySquare, SquareAsterisk } from 'lucide-react';
+import { KeySquare, LogIn, SquareAsterisk } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
@@ -9,16 +9,18 @@ import { useChatStore } from '@/store/chat';
 import { useGlobalStore } from '@/store/global';
 
 import APIKeyForm from './ApiKeyForm';
+import AuthForm from './AuthForm';
 import { ErrorActionContainer, FormAction } from './style';
 
 enum Tab {
   Api = 'api',
+  Auth = 'auth',
   Password = 'password',
 }
 
 const InvalidAccess: RenderErrorMessage['Render'] = memo(({ id }) => {
   const { t } = useTranslation('error');
-  const [mode, setMode] = useState<Tab>(Tab.Password);
+  const [mode, setMode] = useState<Tab>(Tab.Auth);
   const [password, setSettings] = useGlobalStore((s) => [s.settings.password, s.setSettings]);
   const [resend, deleteMessage] = useChatStore((s) => [s.resendMessage, s.deleteMessage]);
 
@@ -28,6 +30,11 @@ const InvalidAccess: RenderErrorMessage['Render'] = memo(({ id }) => {
         block
         onChange={(value) => setMode(value as Tab)}
         options={[
+          {
+            icon: <Icon icon={LogIn} />,
+            label: t('auth', { ns: 'common' }),
+            value: Tab.Auth,
+          },
           {
             icon: <Icon icon={SquareAsterisk} />,
             label: t('password', { ns: 'common' }),
@@ -39,6 +46,7 @@ const InvalidAccess: RenderErrorMessage['Render'] = memo(({ id }) => {
         value={mode}
       />
       <Flexbox gap={24}>
+        {mode === Tab.Auth && <AuthForm id={id} />}
         {mode === Tab.Password && (
           <>
             <FormAction
