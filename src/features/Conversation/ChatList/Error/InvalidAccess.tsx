@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { KeySquare, LogIn, SquareAsterisk } from 'lucide-react';
 import { memo, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Center, Flexbox } from 'react-layout-kit';
+import { Flexbox } from 'react-layout-kit';
 
 import { useChatStore } from '@/store/chat';
 import { useGlobalStore } from '@/store/global';
@@ -84,44 +84,46 @@ const InvalidAccess: RenderErrorMessage['Render'] = memo(({ id }) => {
           key={mode}
           transition={{ duration: 0.2 }}
         >
-          {mode === Tab.Auth && <AuthForm id={id} />}
-          {mode === Tab.Password && (
-            <Center gap={16} style={{ maxWidth: 300 }}>
-              <FormAction
-                avatar={'🗳'}
-                description={t('unlock.password.description')}
-                title={t('unlock.password.title')}
-              >
-                <Input.Password
-                  onChange={(e) => {
-                    setSettings({ password: e.target.value });
-                  }}
-                  placeholder={t('unlock.password.placeholder')}
-                  type={'block'}
-                  value={password}
-                />
-              </FormAction>
-              <Flexbox gap={12} width={'100%'}>
-                <Button
-                  onClick={() => {
-                    resend(id);
-                    deleteMessage(id);
-                  }}
-                  type={'primary'}
+          <Flexbox gap={24}>
+            {mode === Tab.Auth && <AuthForm id={id} />}
+            {mode === Tab.Password && (
+              <>
+                <FormAction
+                  avatar={'🗳'}
+                  description={t('unlock.password.description')}
+                  title={t('unlock.password.title')}
                 >
-                  {t('unlock.confirm')}
-                </Button>
-                <Button
-                  onClick={() => {
-                    deleteMessage(id);
-                  }}
-                >
-                  {t('unlock.closeMessage')}
-                </Button>
-              </Flexbox>
-            </Center>
-          )}
-          {mode === Tab.Api && <APIKeyForm id={id} />}
+                  <Input.Password
+                    onChange={(e) => {
+                      setSettings({ password: e.target.value });
+                    }}
+                    placeholder={t('unlock.password.placeholder')}
+                    type={'block'}
+                    value={password}
+                  />
+                </FormAction>
+                <Flexbox gap={12} width={'100%'}>
+                  <Button
+                    onClick={() => {
+                      resend(id);
+                      deleteMessage(id);
+                    }}
+                    type={'primary'}
+                  >
+                    {t('unlock.confirm')}
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      deleteMessage(id);
+                    }}
+                  >
+                    {t('unlock.closeMessage')}
+                  </Button>
+                </Flexbox>
+              </>
+            )}
+            {mode === Tab.Api && <APIKeyForm id={id} />}
+          </Flexbox>
         </motion.div>
       </AnimatePresence>
     </ErrorActionContainer>

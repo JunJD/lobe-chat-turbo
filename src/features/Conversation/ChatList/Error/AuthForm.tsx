@@ -37,7 +37,7 @@ const APIKeyForm = memo<{ id: string }>(({ id }) => {
         title={t('unlock.auth.title')}
       >
         <Form name="nest-messages" style={{ width: '100%' }} validateMessages={validateMessages}>
-          <Form.Item name={['user', 'email']} rules={[{ type: 'email' }]}>
+          <Form.Item name={['user', 'email']} rules={[{ type: 'email' }]} style={{ margin: 0 }}>
             <Input
               onChange={(e) => {
                 setConfig({ OPENAI_API_KEY: e.target.value });
