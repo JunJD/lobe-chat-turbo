@@ -1,5 +1,5 @@
 import { Icon } from '@lobehub/ui';
-import { Button, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { LockKeyhole } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +23,12 @@ const APIKeyForm = memo<{ id: string }>(({ id }) => {
 
   const [resend, deleteMessage] = useChatStore((s) => [s.resendMessage, s.deleteMessage]);
 
+  const validateMessages = {
+    types: {
+      email: '请填写你的邮箱账号',
+    },
+  };
+
   return (
     <Center gap={16} style={{ maxWidth: 300 }}>
       <FormAction
@@ -30,14 +36,18 @@ const APIKeyForm = memo<{ id: string }>(({ id }) => {
         description={t('unlock.auth.description')}
         title={t('unlock.auth.title')}
       >
-        <Input
-          onChange={(e) => {
-            setConfig({ OPENAI_API_KEY: e.target.value });
-          }}
-          placeholder={`填写邮箱，使用${showProxy ? '密码' : '验证码'}注册/登陆`}
-          type="email"
-          value={apiKey}
-        />
+        <Form name="nest-messages" style={{ width: '100%' }} validateMessages={validateMessages}>
+          <Form.Item name={['user', 'email']} rules={[{ type: 'email' }]}>
+            <Input
+              onChange={(e) => {
+                setConfig({ OPENAI_API_KEY: e.target.value });
+              }}
+              placeholder={`填写邮箱，使用${showProxy ? '密码' : '验证码'}注册/登陆`}
+              type="email"
+              value={apiKey}
+            />
+          </Form.Item>
+        </Form>
         {showProxy ? (
           <Input.Password
             onChange={(e) => {

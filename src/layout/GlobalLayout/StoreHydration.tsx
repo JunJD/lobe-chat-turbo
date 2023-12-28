@@ -35,6 +35,7 @@ const StoreHydration = memo(() => {
   );
 
   useEffect(() => {
+    console.log('开始预加载💫');
     router.prefetch('/chat');
     router.prefetch('/market');
     router.prefetch('/settings/common');
