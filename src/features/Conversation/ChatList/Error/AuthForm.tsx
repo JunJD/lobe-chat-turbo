@@ -1,27 +1,34 @@
 import { Icon } from '@lobehub/ui';
 import { Button, Form, Input } from 'antd';
 import { LockKeyhole } from 'lucide-react';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Center, Flexbox } from 'react-layout-kit';
 
 import { useChatStore } from '@/store/chat';
 import { useGlobalStore } from '@/store/global';
-import { settingsSelectors } from '@/store/global/selectors';
+import { authSelectors } from '@/store/global/slices/auth/selectors';
 
 import { FormAction } from './style';
 
 const APIKeyForm = memo<{ id: string }>(({ id }) => {
   const { t } = useTranslation('error');
-  const [showProxy, setShow] = useState(false);
+  const [isDtupwd, setShow] = useState(false);
 
-  const [apiKey, proxyUrl, setConfig] = useGlobalStore((s) => [
-    settingsSelectors.openAIAPI(s),
-    settingsSelectors.openAIProxyUrl(s),
-    s.setOpenAIConfig,
+  const [loginParams, setLoginParams] = useGlobalStore((s) => [
+    authSelectors.loginParams(s),
+    authSelectors.setLoginParams(s),
+  ]);
+  const [authInfo, processLogin] = useGlobalStore((s) => [
+    authSelectors.authInfo(s),
+    authSelectors.processLogin(s),
   ]);
 
-  const [resend, deleteMessage] = useChatStore((s) => [s.resendMessage, s.deleteMessage]);
+  useEffect(() => {
+    console.log(authInfo, 'authInfo');
+  }, [authInfo]);
+
+  const [deleteMessage] = useChatStore((s) => [s.deleteMessage]);
 
   const validateMessages = {
     types: {
@@ -40,22 +47,22 @@ const APIKeyForm = memo<{ id: string }>(({ id }) => {
           <Form.Item name={['user', 'email']} rules={[{ type: 'email' }]} style={{ margin: 0 }}>
             <Input
               onChange={(e) => {
-                setConfig({ OPENAI_API_KEY: e.target.value });
+                setLoginParams({ email: e.target.value, password: '' });
               }}
-              placeholder={`填写邮箱，使用${showProxy ? '密码' : '验证码'}注册/登陆`}
-              type="email"
-              value={apiKey}
+              placeholder={`填写邮箱，使用${isDtupwd ? '密码' : '验证码'}注册/登陆`}
+              type={'email'}
+              value={loginParams.email}
             />
           </Form.Item>
         </Form>
-        {showProxy ? (
+        {isDtupwd ? (
           <Input.Password
             onChange={(e) => {
-              setConfig({ endpoint: e.target.value });
+              setLoginParams({ ...loginParams, password: e.target.value });
             }}
             placeholder={'请填写你的密码'}
             type={'block'}
-            value={proxyUrl}
+            value={loginParams.password}
           />
         ) : (
           <Button
@@ -73,8 +80,8 @@ const APIKeyForm = memo<{ id: string }>(({ id }) => {
         <Button
           block
           onClick={() => {
-            resend(id);
-            deleteMessage(id);
+            processLogin();
+            // deleteMessage(id);
           }}
           style={{ marginTop: 8 }}
           type={'primary'}
