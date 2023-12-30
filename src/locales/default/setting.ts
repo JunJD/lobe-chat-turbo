@@ -163,6 +163,13 @@ export default {
     },
     title: '聊天设置',
   },
+  settingMY: {
+    baseinfo: '基础信息',
+    email: {
+      desc: '绑定邮箱',
+      title: '邮箱',
+    },
+  },
   settingModel: {
     enableMaxTokens: {
       title: '开启单次回复限制',
@@ -289,6 +296,7 @@ export default {
     agent: '默认助手',
     common: '通用设置',
     llm: '语言模型',
+    my: '我的账户',
     tts: '语音服务',
   },
   tools: {

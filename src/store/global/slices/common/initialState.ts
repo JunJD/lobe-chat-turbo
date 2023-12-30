@@ -8,6 +8,7 @@ export enum SettingsTabs {
   Agent = 'agent',
   Common = 'common',
   LLM = 'llm',
+  MY = 'my',
   TTS = 'tts',
 }
 

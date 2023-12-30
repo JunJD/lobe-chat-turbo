@@ -1,9 +1,11 @@
+import isEqual from 'fast-deep-equal';
 import { produce } from 'immer';
 import type { StateCreator } from 'zustand/vanilla';
 
 import { authService } from '@/services/auth';
 import type { GlobalStore } from '@/store/global';
-import type { LoginParams } from '@/types/auth';
+import type { AuthInfo, LoginParams } from '@/types/auth';
+import { merge } from '@/utils/merge';
 
 /**
  * 设置操作
@@ -11,6 +13,7 @@ import type { LoginParams } from '@/types/auth';
 export interface AuthAction {
   login: (params: LoginParams) => void;
   processLogin: () => void;
+  updateUserInfo: (authInfo: AuthInfo) => void;
 }
 
 export const createAuthSlice: StateCreator<
@@ -38,5 +41,13 @@ export const createAuthSlice: StateCreator<
         username: authInfo.sub,
       },
     });
+  },
+  updateUserInfo: (authInfo: AuthInfo) => {
+    const prevAuthInfo = get().authInfo;
+    const nextAuthInfo = merge(prevAuthInfo, authInfo);
+
+    if (isEqual(prevAuthInfo, nextAuthInfo)) return;
+
+    set({ authInfo: merge(prevAuthInfo, authInfo) }, false);
   },
 });

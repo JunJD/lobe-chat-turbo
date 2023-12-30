@@ -25,7 +25,7 @@ const createStore: StateCreator<GlobalStore, [['zustand/devtools', never]]> = (.
 });
 
 //  ===============  persist 本地缓存中间件配置 ============ //
-type GlobalPersist = Pick<GlobalStore, 'preference' | 'settings' | 'login'>;
+type GlobalPersist = Pick<GlobalStore, 'preference' | 'settings' | 'login' | 'authInfo'>;
 
 const persistOptions: PersistOptions<GlobalStore, GlobalPersist> = {
   merge: (persistedState, currentState) => {
@@ -34,6 +34,13 @@ const persistOptions: PersistOptions<GlobalStore, GlobalPersist> = {
     return {
       ...currentState,
       ...state,
+      authInfo: produce(state.authInfo, (draft) => {
+        if (!draft.accessToken) {
+          draft.accessToken = '';
+          draft.username = '';
+          draft.tokenBalance = 0;
+        }
+      }),
       settings: produce(state.settings, (draft) => {
         if (!draft.defaultAgent) {
           draft.defaultAgent = DEFAULT_AGENT;
@@ -55,7 +62,7 @@ const persistOptions: PersistOptions<GlobalStore, GlobalPersist> = {
   storage: createHyperStorage({
     localStorage: {
       dbName: 'LobeHub',
-      selectors: ['preference', 'settings'],
+      selectors: ['preference', 'settings', 'authInfo'],
     },
   }),
 };
