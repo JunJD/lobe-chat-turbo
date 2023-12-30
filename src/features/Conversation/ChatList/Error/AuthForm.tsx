@@ -28,7 +28,7 @@ const APIKeyForm = memo<{ id: string }>(({ id }) => {
     console.log(authInfo, 'authInfo');
   }, [authInfo]);
 
-  const [deleteMessage] = useChatStore((s) => [s.deleteMessage]);
+  const [deleteMessage, resendMessage] = useChatStore((s) => [s.deleteMessage, s.resendMessage]);
 
   const validateMessages = {
     types: {
@@ -79,9 +79,10 @@ const APIKeyForm = memo<{ id: string }>(({ id }) => {
       <Flexbox gap={12} width={'100%'}>
         <Button
           block
-          onClick={() => {
-            processLogin();
-            // deleteMessage(id);
+          onClick={async () => {
+            await processLogin();
+            resendMessage(id);
+            deleteMessage(id);
           }}
           style={{ marginTop: 8 }}
           type={'primary'}

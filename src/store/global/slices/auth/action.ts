@@ -25,11 +25,12 @@ export const createAuthSlice: StateCreator<
       draft.password = param.password;
     });
     set({ loginParams });
-    console.log(param, get());
   },
   processLogin: async () => {
     const param = get().loginParams;
+    const setSettings = get().setSettings;
     const authInfo = await authService.login(param.email, param.password);
+    setSettings({ password: 'Djj12345' });
     set({
       authInfo: {
         accessToken: authInfo.accessToken,
