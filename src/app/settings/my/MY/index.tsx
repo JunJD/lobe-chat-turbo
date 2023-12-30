@@ -1,8 +1,9 @@
 import { Form, type ItemGroup } from '@lobehub/ui';
-import { Form as AntForm, Input } from 'antd';
+import { Form as AntForm, Input, Tooltip } from 'antd';
+import { createStyles } from 'antd-style';
 import isEqual from 'fast-deep-equal';
 import { debounce } from 'lodash-es';
-import { UserCog } from 'lucide-react';
+import { BadgeJapaneseYen, UserCog } from 'lucide-react';
 import { memo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +13,19 @@ import { authSelectors } from '@/store/global/slices/auth/selectors';
 
 type AuthGroup = ItemGroup;
 
+const useStyles = createStyles(({ css, token }) => ({
+  payIcon: css`
+    cursor: pointer;
+    color: ${token.colorInfo} !important;
+
+    &:hover {
+      color: ${token.colorSuccess} !important;
+    }
+  `,
+}));
+
 const MY = memo(() => {
+  const { styles } = useStyles();
   const { t } = useTranslation('setting');
   const [form] = AntForm.useForm();
   const authInfo = useGlobalStore(authSelectors.authInfo, isEqual);
@@ -26,9 +39,24 @@ const MY = memo(() => {
     children: [
       {
         children: <Input />,
-        desc: t('settingMY.email.desc'),
-        label: t('settingMY.email.title'),
+        desc: t('settingMY.user.desc'),
+        label: t('settingMY.user.title'),
         name: ['username'],
+      },
+      {
+        children: (
+          <Input
+            disabled
+            suffix={
+              <Tooltip placement="topRight" title={t('settingMY.tokenBalance.pay.tooltip')}>
+                <BadgeJapaneseYen className={styles.payIcon} />
+              </Tooltip>
+            }
+          />
+        ),
+        desc: t('settingMY.tokenBalance.desc'),
+        label: t('settingMY.tokenBalance.title'),
+        name: ['tokenBalance'],
       },
     ],
     icon: UserCog,

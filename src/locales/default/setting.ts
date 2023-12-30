@@ -165,9 +165,16 @@ export default {
   },
   settingMY: {
     baseinfo: '基础信息',
-    email: {
-      desc: '绑定邮箱',
-      title: '邮箱',
+    tokenBalance: {
+      desc: '每次对话都会消耗token,您可以充值添加token',
+      pay: {
+        tooltip: '增加可用token',
+      },
+      title: '剩余可用token',
+    },
+    user: {
+      desc: '你的用户名',
+      title: '用户名',
     },
   },
   settingModel: {
