@@ -4,10 +4,11 @@ import { createStyles } from 'antd-style';
 import isEqual from 'fast-deep-equal';
 import { debounce } from 'lodash-es';
 import { BadgeJapaneseYen, UserCog } from 'lucide-react';
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FORM_STYLE } from '@/const/layoutTokens';
+import AddTokenModal from '@/features/AddTokenModal';
 import { useGlobalStore } from '@/store/global';
 import { authSelectors } from '@/store/global/slices/auth/selectors';
 
@@ -28,6 +29,7 @@ const MY = memo(() => {
   const { styles } = useStyles();
   const { t } = useTranslation('setting');
   const [form] = AntForm.useForm();
+  const [showStore, setShowStore] = useState(false);
   const authInfo = useGlobalStore(authSelectors.authInfo, isEqual);
   const [updateUserInfo] = useGlobalStore((s) => [s.updateUserInfo]);
 
@@ -49,7 +51,12 @@ const MY = memo(() => {
             disabled
             suffix={
               <Tooltip placement="topRight" title={t('settingMY.tokenBalance.pay.tooltip')}>
-                <BadgeJapaneseYen className={styles.payIcon} />
+                <BadgeJapaneseYen
+                  className={styles.payIcon}
+                  onClick={() => {
+                    setShowStore(true);
+                  }}
+                />
               </Tooltip>
             }
           />
@@ -64,13 +71,16 @@ const MY = memo(() => {
   };
 
   return (
-    <Form
-      form={form}
-      initialValues={authInfo}
-      items={[auth]}
-      onValuesChange={debounce(updateUserInfo, 100)}
-      {...FORM_STYLE}
-    />
+    <>
+      <Form
+        form={form}
+        initialValues={authInfo}
+        items={[auth]}
+        onValuesChange={debounce(updateUserInfo, 100)}
+        {...FORM_STYLE}
+      />
+      <AddTokenModal open={showStore} setOpen={setShowStore} />
+    </>
   );
 });
 
