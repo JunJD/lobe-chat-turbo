@@ -3,6 +3,7 @@ import { produce } from 'immer';
 import type { StateCreator } from 'zustand/vanilla';
 
 import { authService } from '@/services/auth';
+import { payService } from '@/services/pay';
 import type { GlobalStore } from '@/store/global';
 import type { AuthInfo, LoginParams } from '@/types/auth';
 import { merge } from '@/utils/merge';
@@ -11,6 +12,7 @@ import { merge } from '@/utils/merge';
  * 设置操作
  */
 export interface AuthAction {
+  createPrePay: (token: number) => void;
   login: (params: LoginParams) => void;
   processLogin: () => void;
   updateUserInfo: (authInfo: AuthInfo) => void;
@@ -22,6 +24,12 @@ export const createAuthSlice: StateCreator<
   [],
   AuthAction
 > = (set, get) => ({
+  createPrePay: async (totalAmount: number) => {
+    const tokenAmount = totalAmount * 1999;
+    const accessToken = get().authInfo.accessToken;
+    const result = await payService.createPrePay(totalAmount, tokenAmount, accessToken);
+    console.log(tokenAmount, result);
+  },
   login: (param) => {
     const loginParams = produce(get().loginParams, (draft: LoginParams) => {
       draft.email = param.email;

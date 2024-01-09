@@ -1,45 +1,56 @@
-import { Modal } from '@lobehub/ui';
-import { Segmented } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Flexbox } from 'react-layout-kit';
 
-import { useToolStore } from '@/store/tool';
+import { useGlobalStore } from '@/store/global';
 
 interface PluginStoreProps {
   open?: boolean;
   setOpen: (open: boolean) => void;
 }
-const AddTokenModal = memo<PluginStoreProps>(({ setOpen, open }) => {
-  const { t } = useTranslation('plugin');
 
-  const [listType] = useToolStore((s) => [s.listType]);
+// const createTemp = [
+//     2000,
+// ]
+
+const AddTokenModal = memo<PluginStoreProps>(({ setOpen, open }) => {
+  const { t } = useTranslation('pay');
+  const [createPrePay] = useGlobalStore((s) => [s.createPrePay]);
+  // const [current, setCurrent] = useState(0);
+
+  // const next = () => {
+  //     setCurrent(current + 1);
+  // };
+
+  // const prev = () => {
+  //     setCurrent(current - 1);
+  // };
+
+  const onFinish = ({ totalAmount }: { totalAmount: number }) => {
+    createPrePay(+totalAmount);
+  };
 
   return (
     <Modal
-      allowFullscreen
       footer={null}
       onCancel={() => {
         setOpen(false);
       }}
       open={open}
-      title={t('store.title')}
+      title={t('precreate.title')}
       width={800}
     >
-      <Flexbox gap={16} width={'100%'}>
-        <Segmented
-          block
-          onChange={(v) => {
-            useToolStore.setState({ listType: v as any });
-          }}
-          options={[
-            { label: t('store.tabs.all'), value: 'all' },
-            { label: t('store.tabs.installed'), value: 'installed' },
-          ]}
-          style={{ flex: 1 }}
-          value={listType}
-        />
-      </Flexbox>
+      <p>{t('precreate.desc')}</p>
+      <Form initialValues={{ remember: true }} onFinish={onFinish}>
+        <Form.Item label="充值金额：" name="totalAmount">
+          <Input></Input>
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button htmlType="submit" type="primary">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
     </Modal>
   );
 });

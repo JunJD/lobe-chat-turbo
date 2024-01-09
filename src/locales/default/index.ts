@@ -5,6 +5,7 @@ import empty from './empty';
 import error from './error';
 import market from './market';
 import migration from './migration';
+import pay from './pay';
 import plugin from './plugin';
 import setting from './setting';
 import welcome from './welcome';
@@ -16,6 +17,7 @@ const resources = {
   error,
   market,
   migration,
+  pay,
   plugin,
   setting,
   tool,

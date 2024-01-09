@@ -84,6 +84,11 @@ export default {
     },
     waitingForMore: '更多模型正在 <1>计划接入</1> 中，敬请期待 ✨',
   },
+  pay: {
+    precreate: {
+      title: '扫码支付',
+    },
+  },
   plugin: {
     addTooltip: '自定义插件',
     clearDeprecated: '移除无效插件',
