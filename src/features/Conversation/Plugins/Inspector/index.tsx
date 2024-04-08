@@ -84,8 +84,6 @@ const Inspector = memo<InspectorProps>(
             {loading ? (
               <div>
                 <Loading3QuartersOutlined
-                  onPointerEnterCapture={() => {}}
-                  onPointerLeaveCapture={() => {}}
                   spin
                 />
               </div>
