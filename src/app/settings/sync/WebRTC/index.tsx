@@ -66,7 +66,7 @@ const WebRTC = memo(() => {
           e.stopPropagation();
         }}
       >
-        <SyncStatusInspector hiddenActions hiddenEnableGuide />
+        <SyncStatusInspector />
       </div>
     ),
     title: (

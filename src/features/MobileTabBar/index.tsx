@@ -1,6 +1,6 @@
 import { Icon, MobileTabBar, type MobileTabBarProps } from '@lobehub/ui';
 import { createStyles } from 'antd-style';
-import { Bot, MessageSquare, User } from 'lucide-react';
+import { MessageSquare, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { rgba } from 'polished';
 import { memo, useMemo } from 'react';
@@ -36,14 +36,6 @@ export default memo<Props>(({ className, tabBarKey }) => {
           router.push('/chat');
         },
         title: t('tab.chat'),
-      },
-      {
-        icon: (active) => <Icon className={active ? styles.active : undefined} icon={Bot} />,
-        key: SidebarTabKey.Market,
-        onClick: () => {
-          router.push('/market');
-        },
-        title: t('tab.market'),
       },
       {
         icon: (active) => <Icon className={active ? styles.active : undefined} icon={User} />,

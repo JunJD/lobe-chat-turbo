@@ -34,7 +34,7 @@ const Header = memo(() => {
             {avatar ? <Avatar avatar={avatar} size={28} /> : <Logo size={28} />}
           </div>
           <Logo type={'text'} />
-          <SyncStatusInspector placement={'bottom'} />
+          <SyncStatusInspector />
         </Flexbox>
       }
       right={

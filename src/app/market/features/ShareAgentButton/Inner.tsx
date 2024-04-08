@@ -1,11 +1,11 @@
 import { Icon } from '@lobehub/ui';
-import { Button, Divider, Tag } from 'antd';
-import { Github, Settings, Share2 } from 'lucide-react';
+import { Divider, Tag } from 'antd';
+import { Settings, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { AGENTS_INDEX_GITHUB, imageUrl } from '@/const/url';
+import { imageUrl } from '@/const/url';
 
 const Inner = memo(() => {
   const { t } = useTranslation('market');
@@ -38,13 +38,6 @@ const Inner = memo(() => {
       </h3>
       <p>{t('guide.func2.desc')}</p>
       <br />
-      <Button
-        icon={<Icon icon={Github} />}
-        onClick={() => window.open(AGENTS_INDEX_GITHUB, '__blank')}
-        type={'primary'}
-      >
-        {t('guide.func2.button')}
-      </Button>
     </>
   );
 });

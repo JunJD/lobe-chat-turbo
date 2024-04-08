@@ -1,5 +1,5 @@
 import { ActionIcon } from '@lobehub/ui';
-import { Compass, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,8 +17,7 @@ const TopActions = memo<TopActionProps>(({ tab }) => {
   const switchBackToChat = useGlobalStore((s) => s.switchBackToChat);
 
   return (
-    <>
-      <Link
+    <Link
         aria-label={t('tab.chat')}
         href={'/chat'}
         onClick={(e) => {
@@ -34,16 +33,6 @@ const TopActions = memo<TopActionProps>(({ tab }) => {
           title={t('tab.chat')}
         />
       </Link>
-      <Link aria-label={t('tab.market')} href={'/market'}>
-        <ActionIcon
-          active={tab === SidebarTabKey.Market}
-          icon={Compass}
-          placement={'right'}
-          size="large"
-          title={t('tab.market')}
-        />
-      </Link>
-    </>
   );
 });
 
