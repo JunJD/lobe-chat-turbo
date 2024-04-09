@@ -7,9 +7,7 @@ import ClientResponsiveContent from '@/components/client/ClientResponsiveContent
 import Showcase from './features/Showcase';
 
 const Desktop = memo(() => (
-  <>
-    <Showcase />
-  </>
+  <Showcase />
 ));
 
 export default ClientResponsiveContent({ Desktop, Mobile: () => import('../(mobile)') });
