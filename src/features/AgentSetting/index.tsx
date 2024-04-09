@@ -18,7 +18,7 @@ const AgentSettings = memo<AgentSettingsProps>((props) => {
       <AgentMeta />
       <AgentConfig />
       <AgentTTS />
-      <AgentPlugin />
+      {/* <AgentPlugin /> */}
     </Provider>
   );
 });
